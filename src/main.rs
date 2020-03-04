@@ -21,7 +21,7 @@ fn main() {
     let mut count_vec: Vec<_> = temp.iter().collect();
     count_vec.sort_by(|a, b| b.1.cmp(a.1));
     for i in 0..5 {
-        //println!("count_vec: {:?}", count_vec[i]);
+        println!("count_vec: {:?}", count_vec[i]);
     }
     let mut temp3 = address_string.split(|c: char| !c.is_alphanumeric())
     .filter(|w| !w.is_empty())
