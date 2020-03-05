@@ -20,22 +20,24 @@ fn main() {
     let to_compress = String::from("Thissss stringgggg toooo beee compressedddd");
     let compressed = String::from("This3 string4 to3 be2 compres1ed3");
     let temp = word_count(&address_string);
-    //top_k_frequent(address_string, 10);
+    top_k_frequent(address_string, 5);
     let mut count_vec: Vec<_> = temp.iter().collect();
     count_vec.sort_by(|a, b| b.1.cmp(a.1));
     for i in 0..5 {
         println!("count_vec: {:?}", count_vec[i]);
     }
-    let mut temp3 = address_string.split(|c: char| !c.is_alphanumeric())
-    .filter(|w| !w.is_empty())
-    .map(|w| w.to_lowercase())
-    .fold(HashMap::new(), count_words);
-    println!("temp3: {:?}", temp3);
+
+    // Test to sanitize words and read into vec
+    //let temp3 = address_string.split(|c: char| !c.is_alphanumeric())
+    //.filter(|w| !w.is_empty())
+    //.map(|w| w.to_lowercase())
+    //.fold(HashMap::new(), count_words);
+    //println!("temp3: {:?}", temp3);
 
     
     let compress_test = compress(&to_compress);
     println!("{}", compress_test);
-    let test_parens = String::from("()");
+    let test_parens = String::from("(())()");
     println!("{}", balanced_parens(test_parens));
 }
 
@@ -45,7 +47,8 @@ fn create_part(character: char, count: i32) -> String {
     } else {
         count.to_string() 
     };
-    println!("Char: {}, Count: {}", character, count);
+    //debug
+    //println!("Char: {}, Count: {}", character, count);
     format!("{}{}", character, count)
 }
 
@@ -106,18 +109,17 @@ fn word_count(sentence: &str) -> HashMap<String, u32> {
         .fold(HashMap::new(), count_words)
 }
 
-fn count_words(mut hashMap: HashMap<String, u32>, word: String) -> HashMap<String, u32> {
+fn count_words(mut hash_map: HashMap<String, u32>, word: String) -> HashMap<String, u32> {
     {
-        let c = hashMap.entry(word).or_insert(0);
+        let c = hash_map.entry(word).or_insert(0);
         *c += 1;
     }
 
-    hashMap
+    hash_map
 }
 
 // does no error checking, but takes a string of parens and checks if it's balanced
 fn balanced_parens(input: String) -> bool {
-    let mut output = false;
     let mut left_count = 0;
     let mut right_count = 0;
     for i in 0..input.len() {
